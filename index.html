@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ilai Erez Photography — Professional sports photography capturing the action, energy, and decisive moments of sport.">
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content="Ilai Erez Photography | Sports Photography">
+  <meta property="og:description" content="Capturing action, energy, and the decisive moment of sport.">
+  <meta property="og:image"       content="https://picsum.photos/1200/630?random=50">
+  <meta property="og:url"         content="">
+  <meta property="og:type"        content="website">
+
+  <title>Ilai Erez Photography | Sports Photography</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ========================
+       NAVIGATION
+  ========================= -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo" aria-label="Ilai Erez Photography home">Ilai Erez Photography</a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="index.html"     class="nav__link">Home</a></li>
+        <li><a href="portfolio.html" class="nav__link">Portfolio</a></li>
+        <li><a href="contact.html"   class="nav__link">Contact</a></li>
+      </ul>
+
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================
+       HERO
+  ========================= -->
+  <section class="hero" aria-label="Hero">
+    <div class="hero__bg"
+         style="background-image: url('refrences/basketball/971A8720-5.jpg');"
+         role="img"
+         aria-label="Sports action photography background"></div>
+
+    <div class="container hero__content">
+      <p class="hero__eyebrow">Sports Photography</p>
+
+      <h1 class="hero__title heading">
+        <span>Capture</span>
+        <span class="accent">The Moment</span>
+      </h1>
+
+      <p class="hero__subtitle">
+        High-impact sports photography that freezes action,<br>
+        reveals emotion, and tells the story of competition.
+      </p>
+
+      <div class="hero__actions">
+        <a href="portfolio.html" class="btn btn--primary">
+          View Portfolio
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="2" y1="7" x2="12" y2="7"/>
+            <polyline points="7,2 12,7 7,12"/>
+          </svg>
+        </a>
+        <a href="contact.html" class="btn btn--outline">Get In Touch</a>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <div class="hero__scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ========================
+       ABOUT / STATS
+  ========================= -->
+  <section class="about section">
+    <div class="container">
+      <div class="about__grid">
+
+        <!-- Text column -->
+        <div>
+          <p class="section-label" data-reveal>About</p>
+
+          <h2 class="section-title heading" data-reveal data-reveal-delay="1">
+            Passion<br>Behind<br>the Lens
+          </h2>
+
+          <p class="about__text" data-reveal data-reveal-delay="2">
+            Every sport tells a story. Whether it's the split-second of a decisive goal,
+            the raw determination on an athlete's face, or the electric atmosphere of
+            a packed stadium — my photography exists to preserve those moments forever.
+          </p>
+
+          <p class="about__text" data-reveal data-reveal-delay="2">
+            Based on the field, in the stands, and everywhere the action is, I bring
+            professional-grade equipment, expert timing, and a genuine love for sport
+            to every shoot.
+          </p>
+
+          <a href="contact.html" class="btn btn--outline" data-reveal data-reveal-delay="3"
+             style="margin-top: 0.5rem;">Book a Session</a>
+
+          <!-- Stats -->
+          <div class="stats" data-reveal data-reveal-delay="2" style="margin-top: 3rem;">
+            <div class="stat">
+              <div class="stat__header">
+                <span class="stat__number" data-target="3">0</span>
+                <span class="stat__plus">+</span>
+              </div>
+              <span class="stat__label">Years Experience</span>
+            </div>
+            <div class="stat">
+              <div class="stat__header">
+                <span class="stat__number" data-target="500">0</span>
+                <span class="stat__plus">+</span>
+              </div>
+              <span class="stat__label">Events Covered</span>
+            </div>
+            <div class="stat">
+              <div class="stat__header">
+                <span class="stat__number" data-target="12">0</span>
+                <span class="stat__plus">K+</span>
+              </div>
+              <span class="stat__label">Photos Delivered</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual column -->
+        <div class="about__visual" data-reveal data-reveal-delay="3">
+          <div class="about__img-wrap">
+            <img
+              class="about__img"
+              src="refrences/basketball/971A9809-watermarked.jpg"
+              alt="Sports action shot"
+              loading="lazy">
+          </div>
+          <div class="about__badge">
+            <span class="about__badge-num">#1</span>
+            <span class="about__badge-txt">Sports<br>Photographer</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       PORTFOLIO TEASER
+  ========================= -->
+  <section class="section" style="background: var(--color-bg-surface); border-top: 1px solid var(--color-border);">
+    <div class="container" style="text-align: center; max-width: 640px; margin-inline: auto;">
+      <p class="section-label" data-reveal style="justify-content: center;">Work</p>
+      <h2 class="section-title heading" data-reveal data-reveal-delay="1">
+        See The<br>Full Portfolio
+      </h2>
+      <p class="section-subtitle" data-reveal data-reveal-delay="2" style="margin-inline: auto; margin-bottom: 2.5rem;">
+        Explore a full gallery of football, basketball, running, swimming, and more —
+        each shot selected to showcase the best of sports photography.
+      </p>
+      <a href="portfolio.html" class="btn btn--primary" data-reveal data-reveal-delay="3">
+        Browse Gallery
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="2" y1="7" x2="12" y2="7"/>
+          <polyline points="7,2 12,7 7,12"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========================
+       FOOTER
+  ========================= -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="index.html" class="footer__logo">Ilai Erez Photography</a>
+
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="index.html"     class="footer__link">Home</a>
+        <a href="portfolio.html" class="footer__link">Portfolio</a>
+        <a href="contact.html"   class="footer__link">Contact</a>
+      </nav>
+
+      <p class="footer__copy">&copy; <span id="year"></span> Ilai Erez Photography. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>

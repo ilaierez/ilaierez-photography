@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ilai Erez Photography Portfolio — High-impact sports photography across basketball and flash photography.">
+
+  <meta property="og:title"       content="Ilai Erez Photography | Portfolio">
+  <meta property="og:description" content="High-impact sports photography gallery.">
+  <meta property="og:image"       content="refrences/basketball/971A6403-2.jpg">
+  <meta property="og:type"        content="website">
+
+  <title>Ilai Erez Photography | Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css">
+
+  <style>
+    /* 3-D Gallery section */
+    .gallery3d-section {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      background: #000;
+    }
+
+    #gallery-3d {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* "PORTFOLIO" title floats over the canvas */
+    /* Top gradient so title always reads cleanly */
+    .gallery3d-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 180px;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.85) 0%, transparent 100%);
+      z-index: 9;
+      pointer-events: none;
+    }
+
+    .gallery3d-title {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .gallery3d-title h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(5rem, 14vw, 11rem);
+      color: rgba(255, 255, 255, 0.70);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* Scroll hint — nudged up to make room for buttons */
+    .gallery3d-hint {
+      position: absolute;
+      bottom: 7rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      pointer-events: none;
+      z-index: 10;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.35);
+      line-height: 1.8;
+    }
+
+    /* Flash section */
+    .flash-section {
+      background: var(--color-bg-surface);
+      padding-block: var(--space-xl);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .flash-grid {
+      columns: 3;
+      column-gap: 8px;
+      margin-top: var(--space-lg);
+    }
+
+    .flash-grid__item {
+      position: relative;
+      overflow: hidden;
+      break-inside: avoid;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .flash-grid__item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    .flash-grid__item:hover img { transform: scale(1.04); }
+
+    .flash-grid__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .flash-grid__overlay svg { color: var(--color-accent); }
+    .flash-grid__item:hover .flash-grid__overlay { opacity: 1; }
+
+    @media (max-width: 767px) { .flash-grid { columns: 2; } }
+    @media (max-width: 480px) { .flash-grid { columns: 1; } }
+
+    /* Lightbox */
+    .lb {
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .lb--open { opacity: 1; pointer-events: all; }
+
+    .lb__img {
+      max-width: min(92vw, 1100px);
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 2px;
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .lb--open .lb__img { transform: scale(1); }
+
+    .lb__close {
+      position: absolute;
+      top: 1.25rem; right: 1.25rem;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lb__close:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    .lb__prev, .lb__next {
+      position: absolute;
+      top: 50%; transform: translateY(-50%);
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .lb__prev { left: clamp(0.5rem, 2vw, 1.5rem); }
+    .lb__next { right: clamp(0.5rem, 2vw, 1.5rem); }
+    .lb__prev:hover, .lb__next:hover { border-color: var(--color-accent); color: var(--color-accent); }
+
+    .lb__counter {
+      position: absolute;
+      bottom: 1.25rem; left: 50%; transform: translateX(-50%);
+      font-size: 0.7rem; letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* Categories below fold */
+    .categories {
+      background: var(--color-bg);
+      padding-block: var(--space-xl);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .categories__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--color-border);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-top: var(--space-lg);
+    }
+
+    .category-card {
+      background: var(--color-bg-surface);
+      padding: var(--space-md) var(--space-lg);
+    }
+
+    .category-card__label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .category-card__title {
+      font-family: var(--font-heading);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+
+    .category-card__text {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      max-width: 380px;
+    }
+
+    @media (max-width: 640px) {
+      .categories__grid { grid-template-columns: 1fr; }
+    }
+
+    /* Section buttons — bottom center */
+    .gallery3d-buttons {
+      position: absolute;
+      bottom: 2.8rem;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      z-index: 10;
+      flex-wrap: wrap;
+      padding-inline: 1rem;
+    }
+
+    .gallery3d-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-heading);
+      font-size: 1rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75em 1.8em;
+      border-radius: 3px;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .gallery3d-cta--primary {
+      color: #000;
+      background: var(--color-accent);
+    }
+    .gallery3d-cta--outline {
+      color: var(--color-accent);
+      background: transparent;
+      border: 1.5px solid var(--color-accent);
+    }
+    .gallery3d-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 24px rgba(0, 168, 255, 0.35);
+    }
+
+    /* Basketball section */
+    .bball-section {
+      background: var(--color-bg);
+      padding-block: var(--space-xl);
+      border-top: 1px solid var(--color-border);
+    }
+
+    .bball-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: var(--space-lg);
+    }
+
+    /* Masonry columns — photos at natural size, zero cropping */
+    .bball-grid {
+      columns: 3;
+      column-gap: 8px;
+    }
+
+    .bball-grid__item {
+      position: relative;
+      overflow: hidden;
+      break-inside: avoid;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border-radius: 2px;
+    }
+
+    .bball-grid__item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    .bball-grid__item:hover img { transform: scale(1.04); }
+
+    .bball-grid__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .bball-grid__overlay svg { color: var(--color-accent); }
+    .bball-grid__item:hover .bball-grid__overlay { opacity: 1; }
+
+    @media (max-width: 767px) { .bball-grid { columns: 2; } }
+    @media (max-width: 480px) { .bball-grid { columns: 1; } }
+  </style>
+</head>
+<body>
+
+  <!-- ========================
+       NAVIGATION
+  ========================= -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">Ilai Erez Photography</a>
+
+      <ul class="nav__links" role="list">
+        <li><a href="index.html"     class="nav__link">Home</a></li>
+        <li><a href="portfolio.html" class="nav__link">Portfolio</a></li>
+        <li><a href="contact.html"   class="nav__link">Contact</a></li>
+      </ul>
+
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================
+       3D GALLERY
+  ========================= -->
+  <section class="gallery3d-section" aria-label="3D photo gallery">
+    <div id="gallery-3d"></div>
+
+    <div class="gallery3d-title" aria-hidden="true">
+      <h1>Portfolio</h1>
+    </div>
+
+    <div class="gallery3d-hint" aria-hidden="true">
+      <p>Scroll or use arrow keys to navigate</p>
+      <p>Auto-play resumes after 3 seconds of inactivity</p>
+    </div>
+
+    <!-- Section buttons -->
+    <div class="gallery3d-buttons">
+      <a href="#basketball" class="gallery3d-cta gallery3d-cta--primary">
+        <span>Basketball</span>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,2 12,7 7,12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+      </a>
+      <a href="#flash" class="gallery3d-cta gallery3d-cta--primary">
+        <span>Flash Photography</span>
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,2 12,7 7,12"/><line x1="2" y1="7" x2="12" y2="7"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========================
+       CATEGORIES
+  ========================= -->
+  <section class="categories">
+    <div class="container">
+
+      <div style="text-align:center; max-width:600px; margin-inline:auto;">
+        <p class="section-label" data-reveal style="justify-content:center;">Work</p>
+        <h2 class="section-title heading" data-reveal data-reveal-delay="1">
+          Sports<br>Photography
+        </h2>
+        <p class="section-subtitle" data-reveal data-reveal-delay="2" style="margin-inline:auto;">
+          A curated selection of basketball and flash photography —
+          every shot tells a story.
+        </p>
+      </div>
+
+      <div class="categories__grid" data-reveal data-reveal-delay="3">
+        <div class="category-card">
+          <p class="category-card__label">Category</p>
+          <h3 class="category-card__title">Basketball</h3>
+          <p class="category-card__text">
+            Game-day action from Maccabi Tel Aviv, Trail Blazers, and the Israeli
+            League — capturing the raw energy of professional basketball.
+          </p>
+        </div>
+        <div class="category-card">
+          <p class="category-card__label">Technique</p>
+          <h3 class="category-card__title">Flash</h3>
+          <p class="category-card__text">
+            Controlled light, sharp shadows — flash used as a creative tool to
+            isolate athletes and sculpt the decisive moment.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================
+       BASKETBALL SECTION
+  ========================= -->
+  <section class="bball-section" id="basketball">
+    <div class="container">
+
+      <div class="bball-header" data-reveal>
+        <div>
+          <p class="section-label">Category</p>
+          <h2 class="section-title heading">Basketball</h2>
+        </div>
+        <p class="section-subtitle" style="max-width:380px;">
+          Game-day action from Maccabi Tel Aviv, Trail Blazers, and the Israeli League.
+        </p>
+      </div>
+
+      <div class="bball-grid">
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/basketball/1.jpg" alt="Trail Blazers dunk" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/basketball/971A6403-2.jpg" alt="Maccabi pyrotechnics" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
+          <img src="refrences/basketball/971A6627.jpg" alt="Maccabi action" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/basketball/971A7574 copy.jpg" alt="Player portrait" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/basketball/971A8081-2 copy.jpg" alt="Courtside" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
+          <img src="refrences/basketball/971A8720-5.jpg" alt="Motion blur drive" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/basketball/971A8980-2.jpg" alt="Celebration" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/basketball/971A9809-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
+          <img src="refrences/basketball/sharp dunk.jpg" alt="Sharp dunk" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/basketball/971A7930-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/basketball/971A7957-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
+          <img src="refrences/basketball/971A8060-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/basketball/971A8139-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/basketball/971A8249-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
+          <img src="refrences/basketball/971A8275.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/basketball/971A9543.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/basketball/971A9972-watermarked.jpg" alt="Basketball action" loading="lazy">
+          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       FLASH PHOTOGRAPHY SECTION
+  ========================= -->
+  <section class="flash-section" id="flash">
+    <div class="container">
+
+      <div class="bball-header" data-reveal>
+        <div>
+          <p class="section-label">Technique</p>
+          <h2 class="section-title heading">Flash<br>Photography</h2>
+        </div>
+        <p class="section-subtitle" style="max-width:380px;">
+          Controlled light, sharp shadows — flash as a creative tool to isolate athletes and sculpt the decisive moment.
+        </p>
+      </div>
+
+      <div class="flash-grid">
+
+        <div class="flash-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/flash photogarphy/971A9452.jpg" alt="Flash — jump over defender" loading="lazy">
+          <div class="flash-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="flash-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/flash photogarphy/971A9554.jpg" alt="Flash — Thunder player" loading="lazy">
+          <div class="flash-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="flash-grid__item" data-reveal data-reveal-delay="3">
+          <img src="refrences/flash photogarphy/971A9575.jpg" alt="Flash — low angle reach" loading="lazy">
+          <div class="flash-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="flash-grid__item" data-reveal data-reveal-delay="1">
+          <img src="refrences/flash photogarphy/971A9735.jpg" alt="Flash — celebration jump" loading="lazy">
+          <div class="flash-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+        <div class="flash-grid__item" data-reveal data-reveal-delay="2">
+          <img src="refrences/flash photogarphy/971A9870.jpg" alt="Flash — stadium smoke" loading="lazy">
+          <div class="flash-grid__overlay">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================
+       LIGHTBOX
+  ========================= -->
+  <div id="lb" class="lb" role="dialog" aria-modal="true" aria-label="Photo lightbox">
+    <button class="lb__close" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="2" y1="2" x2="16" y2="16"/><line x1="16" y1="2" x2="2" y2="16"/></svg>
+    </button>
+    <button class="lb__prev" aria-label="Previous">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="11,3 5,9 11,15"/></svg>
+    </button>
+    <img class="lb__img" src="" alt="">
+    <button class="lb__next" aria-label="Next">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="7,3 13,9 7,15"/></svg>
+    </button>
+    <p class="lb__counter"></p>
+  </div>
+
+  <!-- ========================
+       FOOTER
+  ========================= -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="index.html" class="footer__logo">Ilai Erez Photography</a>
+
+      <nav class="footer__links" aria-label="Footer navigation">
+        <a href="index.html"     class="footer__link">Home</a>
+        <a href="portfolio.html" class="footer__link">Portfolio</a>
+        <a href="contact.html"   class="footer__link">Contact</a>
+      </nav>
+
+      <p class="footer__copy">&copy; <span id="year"></span> Ilai Erez Photography. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- 3D Gallery logic -->
+  <script src="js/gallery3d.js"></script>
+  <!-- Shared: nav, scroll reveal -->
+  <script src="js/main.js" defer></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Lightbox
+    (function () {
+      const lb      = document.getElementById('lb');
+      const lbImg   = lb.querySelector('.lb__img');
+      const lbCount = lb.querySelector('.lb__counter');
+      let imgs = [], cur = 0;
+
+      function open(index) {
+        cur = index;
+        lbImg.src = imgs[cur].src;
+        lbImg.alt = imgs[cur].alt;
+        lbCount.textContent = (cur + 1) + ' / ' + imgs.length;
+        lb.classList.add('lb--open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function close() {
+        lb.classList.remove('lb--open');
+        document.body.style.overflow = '';
+      }
+
+      function nav(dir) {
+        cur = (cur + dir + imgs.length) % imgs.length;
+        lbImg.style.opacity = '0';
+        setTimeout(() => {
+          lbImg.src = imgs[cur].src;
+          lbImg.alt = imgs[cur].alt;
+          lbImg.style.opacity = '1';
+          lbCount.textContent = (cur + 1) + ' / ' + imgs.length;
+        }, 150);
+      }
+
+      // Collect all grid images
+      function initItems() {
+        imgs = Array.from(document.querySelectorAll('.bball-grid__item img, .flash-grid__item img'));
+        document.querySelectorAll('.bball-grid__item, .flash-grid__item').forEach((item, i) => {
+          item.addEventListener('click', () => open(i));
+        });
+      }
+
+      lb.querySelector('.lb__close').addEventListener('click', close);
+      lb.querySelector('.lb__prev').addEventListener('click', () => nav(-1));
+      lb.querySelector('.lb__next').addEventListener('click', () => nav(1));
+      lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+
+      document.addEventListener('keydown', (e) => {
+        if (!lb.classList.contains('lb--open')) return;
+        if (e.key === 'Escape')     close();
+        if (e.key === 'ArrowLeft')  nav(-1);
+        if (e.key === 'ArrowRight') nav(1);
+      });
+
+      lbImg.style.transition = 'opacity 0.15s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1)';
+
+      document.addEventListener('DOMContentLoaded', initItems);
+    })();
+  </script>
+</body>
+</html>
