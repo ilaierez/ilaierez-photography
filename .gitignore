@@ -8,8 +8,6 @@ node_modules/
 .next/
 npm-debug.log*
 
-# Reference photos (large files - not part of the deployable site)
-refrences/
 
 # Editor
 .vscode/
