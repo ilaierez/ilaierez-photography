@@ -11,18 +11,10 @@
     { src: 'refrences/basketball/971A6403-2.jpg',             alt: 'Maccabi pyrotechnics' },
     { src: 'refrences/basketball/971A6627.jpg',               alt: 'Maccabi action' },
     { src: 'refrences/basketball/971A7574 copy.jpg',          alt: 'Player portrait' },
-    { src: 'refrences/basketball/971A7930-watermarked.jpg',   alt: 'Basketball action' },
-    { src: 'refrences/basketball/971A7957-watermarked.jpg',   alt: 'Basketball action' },
-    { src: 'refrences/basketball/971A8060-watermarked.jpg',   alt: 'Basketball action' },
     { src: 'refrences/basketball/971A8081-2 copy.jpg',        alt: 'Courtside' },
-    { src: 'refrences/basketball/971A8139-watermarked.jpg',   alt: 'Basketball action' },
-    { src: 'refrences/basketball/971A8249-watermarked.jpg',   alt: 'Basketball action' },
-    { src: 'refrences/basketball/971A8275.jpg',               alt: 'Basketball action' },
     { src: 'refrences/basketball/971A8720-5.jpg',             alt: 'Motion blur drive' },
     { src: 'refrences/basketball/971A8980-2.jpg',             alt: 'Celebration' },
-    { src: 'refrences/basketball/971A9543.jpg',               alt: 'Basketball action' },
     { src: 'refrences/basketball/971A9809-watermarked.jpg',   alt: 'Basketball action' },
-    { src: 'refrences/basketball/971A9972-watermarked.jpg',   alt: 'Basketball action' },
     { src: 'refrences/basketball/sharp dunk.jpg',             alt: 'Sharp dunk' },
     { src: 'refrences/flash photogarphy/971A9452.jpg',        alt: 'Flash — jump' },
     { src: 'refrences/flash photogarphy/971A9554.jpg',        alt: 'Flash — player' },
@@ -151,7 +143,7 @@
     function tick() {
       requestAnimationFrame(tick);
 
-      if (autoPlay) velocity += 0.45;
+      if (autoPlay) velocity += 0.75;
       velocity   *= 0.88;
       offset     += velocity;
 

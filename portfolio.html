@@ -57,11 +57,59 @@
     .gallery3d-title h1 {
       font-family: var(--font-heading);
       font-size: clamp(5rem, 14vw, 11rem);
-      color: rgba(255, 255, 255, 0.70);
+      color: rgba(255, 255, 255, 0.90);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       line-height: 1;
       user-select: none;
+      display: flex;
+      align-items: center;
+      text-shadow:
+        0 0 40px rgba(255, 255, 255, 0.55),
+        0 0 80px rgba(255, 255, 255, 0.30),
+        0 0 160px rgba(255, 255, 255, 0.15);
+    }
+
+    /* ── Camera aperture O ── */
+    .aperture-o {
+      display: inline-block;
+      height: 1.05em;
+      width:  0.75em;
+      vertical-align: -0.12em;
+      flex-shrink: 0;
+      filter:
+        drop-shadow(0 0 16px rgba(255,255,255,0.55))
+        drop-shadow(0 0 50px rgba(255,255,255,0.30))
+        drop-shadow(0 0 100px rgba(255,255,255,0.15));
+    }
+
+    /* Aperture shutter animation */
+    .aperture-blades-group {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: shutter-rotate 3.5s ease-in-out infinite;
+    }
+
+    .aperture-hex {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: shutter-iris 3.5s ease-in-out infinite;
+    }
+
+    @keyframes shutter-rotate {
+      0%        { transform: rotate(0deg); }
+      18%       { transform: rotate(35deg); }
+      38%       { transform: rotate(35deg); }
+      58%       { transform: rotate(0deg); }
+      100%      { transform: rotate(0deg); }
+    }
+
+    @keyframes shutter-iris {
+      0%        { transform: scale(1); }
+      18%       { transform: scale(0.05); }
+      38%       { transform: scale(0.05); }
+      58%       { transform: scale(1); }
+      100%      { transform: scale(1); }
     }
 
     /* Scroll hint — nudged up to make room for buttons */
@@ -367,7 +415,28 @@
     <div id="gallery-3d"></div>
 
     <div class="gallery3d-title" aria-hidden="true">
-      <h1>Portfolio</h1>
+      <h1>Portfoli<svg class="aperture-o" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <clipPath id="aoc">
+            <circle cx="50" cy="50" r="43"/>
+          </clipPath>
+        </defs>
+        <!-- Dark filled circle — camera body -->
+        <circle cx="50" cy="50" r="43" fill="#0d0d0d"/>
+        <!-- 6 white blade-divider lines + hex — all rotate together -->
+        <g class="aperture-blades-group" clip-path="url(#aoc)" stroke="rgba(255,255,255,0.88)" stroke-width="1.6" stroke-linecap="round" fill="none">
+          <line x1="70" y1="50" x2="50" y2="93"/>
+          <line x1="60" y1="67.3" x2="12.8" y2="71.5"/>
+          <line x1="40" y1="67.3" x2="12.8" y2="28.5"/>
+          <line x1="30" y1="50" x2="50" y2="7"/>
+          <line x1="40" y1="32.7" x2="87.2" y2="28.5"/>
+          <line x1="60" y1="32.7" x2="87.2" y2="71.5"/>
+        </g>
+        <!-- White hexagonal center opening — scales closed/open -->
+        <polygon class="aperture-hex" points="70,50 60,67.3 40,67.3 30,50 40,32.7 60,32.7" fill="white"/>
+        <!-- Thin outer ring border -->
+        <circle cx="50" cy="50" r="43" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="2"/>
+      </svg></h1>
     </div>
 
     <div class="gallery3d-hint" aria-hidden="true">
@@ -503,46 +572,6 @@
 
         <div class="bball-grid__item" data-reveal data-reveal-delay="3">
           <img src="refrences/basketball/sharp dunk.jpg" alt="Sharp dunk" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
-          <img src="refrences/basketball/971A7930-watermarked.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
-          <img src="refrences/basketball/971A7957-watermarked.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
-          <img src="refrences/basketball/971A8060-watermarked.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
-          <img src="refrences/basketball/971A8139-watermarked.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
-          <img src="refrences/basketball/971A8249-watermarked.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="3">
-          <img src="refrences/basketball/971A8275.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="1">
-          <img src="refrences/basketball/971A9543.jpg" alt="Basketball action" loading="lazy">
-          <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
-        </div>
-
-        <div class="bball-grid__item" data-reveal data-reveal-delay="2">
-          <img src="refrences/basketball/971A9972-watermarked.jpg" alt="Basketball action" loading="lazy">
           <div class="bball-grid__overlay"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="16" cy="16" r="14"/><line x1="10" y1="16" x2="22" y2="16"/><polyline points="17,11 22,16 17,21"/></svg></div>
         </div>
 
